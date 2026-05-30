@@ -106,12 +106,6 @@ userRouter.post('/purchase-assets', async (req, res, next) => {
         message: "Asset successfully purchased!",
         insertedId: result.insertId
     });
-    // } catch (error) {
-    // console.error('Error occurred while purchasing asset:', error);
-    // res.status(500).json({
-    //     message: "An error occurred while purchasing the asset."
-    // });
-    // }
 });
 
 userRouter.post('/login', authenticate);

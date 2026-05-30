@@ -13,7 +13,10 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json())
-app.use('/users',userRouter)
+app.get('/',( req, res ) => {
+    res.send('server is running')
+});
+app.use('/users',userRouter);
 
 // const initializeDatabase = async () => {
 //     try {
