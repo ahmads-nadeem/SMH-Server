@@ -10,7 +10,9 @@ app.use(cookieParser());
 app.use(cors({
     origin: 'https://smh-hospital.vercel.app',
     // origin: 'http://localhost:5173', // Aapke React app ka URL
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json())
 app.get('/',( req, res ) => {
