@@ -1,0 +1,8 @@
+version: 0.1
+endpoints:
+  - name: default-endpoint
+    port: 8080        # ← 1189 se 8080 karein
+    type: REST
+    networkVisibilities:
+      - Public
+    context: /
