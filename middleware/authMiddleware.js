@@ -1,24 +1,23 @@
-// const dotenv = require('dotenv');
-// dotenv.config();
-// const jwt = require('jsonwebtoken');
-// // const express = require('express'); 
-// // const router = express.Router();
-// function verifyToken(req, res, next) {
-//     // Header se token lo
-//     const authHeader = req.headers['authorization'];
-//     const token = authHeader && authHeader.split(' ')[1]; // "Bearer TOKEN"
+const dotenv = require('dotenv');
+dotenv.config();
+const jwt = require('jsonwebtoken');
 
-//     if (!token) {
-//         return res.status(401).json({ message: 'Token nahi mila, login karo' });
-//     }
+module.exports.verifyToken = (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(401).json({ message: 'Access Denied!' });
+    }
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next();
+    }
+    catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ message: 'Token expired. Please log in again.' });
+        }
+        return res.status(401).json({ message: 'Invalid token.' });
+    }
+}
 
-//     try {
-//         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//         req.user = decoded; // user info request mein add ho gayi
-//         next();
-//     } catch (err) {
-//         return res.status(403).json({ message: 'Token invalid ya expire ho gaya' });
-//     }
-// }
 
-// module.exports = verifyToken;

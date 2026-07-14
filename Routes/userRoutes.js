@@ -7,8 +7,8 @@ const { addnewpatient, customerTableData, todayPatients } = require('../controll
 
 
 userRouter.get('/today-patients', todayPatients);
-userRouter.get('/customer-table-data', customerTableData);
-userRouter.post('/add-new-patient', addnewpatient);
+userRouter.get('/customer-table-data', customerTableData); //Working
+userRouter.post('/add-new-patient', addnewpatient); //testing
 
 userRouter.get('/all-medicines', allMedicines);  // Working
 userRouter.post('/purchase-assets', purchaseAssets);

@@ -2,9 +2,10 @@ const db = require('../utils/databaseutil');
 
 const patientAdd = async (data) => {
     let { Name, PhoneNumber, ConsultedBy, date, totalbill } = data;
-    let query = 'INSERT INTO storepatients (Name, PhoneNumber, ConsultedBy, totalbill';
+    let query = 'INSERT INTO patients (Name, PhoneNumber, ConsultedBy, totalbill';
     let list = [Name, PhoneNumber, ConsultedBy, totalbill];
     if (date == '' || date.trim() == '') {
+        console.log('this is if condition');
         query += ') VALUES (?, ?, ?, ?)';
     }
     else {
