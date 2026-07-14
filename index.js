@@ -16,7 +16,6 @@ app.use(express.json())
 //         credentials: true
 //     }
 // ));
-
 app.use(cors({
     origin: 'https://smh-hospital.vercel.app',
     credentials: true,

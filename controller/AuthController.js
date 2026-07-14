@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt')
 const { isAvailable, addUser } = require('../model/authModel')
 const { generateToken } = require('../utils/jwtutils');
 
+
+//  Here is the new user register logic of server
 exports.register = async (req, res) => {
     console.log('starting');
     
@@ -36,6 +38,8 @@ exports.register = async (req, res) => {
     });
 }
 
+//  Here is the new user login logic of server
+
 exports.login = async (req, res) => {
     const { mail, password } = req.body;
     const isExist = await isAvailable(mail)
@@ -57,8 +61,8 @@ exports.login = async (req, res) => {
     return res.status(200).json({
         "success": true,
         "message": "User logged in successfully.",
-        userid: isExist[0].id,
-        name: isExist[0].name,
-        email: mail
+        "userid": isExist[0].id,
+        "name": isExist[0].name,
+        "email": mail
     })
 }
