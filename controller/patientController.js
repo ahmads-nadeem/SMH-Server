@@ -1,8 +1,10 @@
 const db = require('../utils/databaseutil');
 const { patientAdd, customerData } = require('../model/patientsModel');
 
-exports.addnewpatient = async (req, res, next) => {
+exports.addnewpatient = async (req, res) => {
+    
     const result = await patientAdd(req.body);
+    // const res = await patientadded(req.body)
     res.status(201).json({
         message: "Customer successfully added!",
         insertedId: result.insertId

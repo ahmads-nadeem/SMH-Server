@@ -4,24 +4,33 @@ const userRouter = express.Router();
 const { getMed, getPatients, getSalesPurchase  } = require('../controller/DataBaseController');
 const { purchaseAssets, allMedicines } = require('../controller/medicineController');
 const { addnewpatient, customerTableData, todayPatients } = require('../controller/patientController');
-
+const { doctorServices, patientsTables } = require('../controller/doctorController')
 
 userRouter.get('/today-patients', todayPatients);
-userRouter.get('/customer-table-data', customerTableData); //Working
-userRouter.post('/add-new-patient', addnewpatient); //testing
+
+userRouter.get('/customer-table-data', customerTableData);//Working
+
+userRouter.post('/new-patient', addnewpatient); //testing
 
 userRouter.get('/all-medicines', allMedicines);  // Working
+
 userRouter.post('/purchase-assets', purchaseAssets);
+
+userRouter.get('/doctor-services', doctorServices)
 
 // i will fix the below code after some time because i have to add some more features in it
 userRouter.get('/database-medicines', getMed);
+
 userRouter.get('/database-patients', getPatients);
+
 userRouter.get('/database-sales-purchase', getSalesPurchase);
+
+// Doctors Routes
+userRouter.get('/doctor/patientsTables', patientsTables)
+
+
+
 module.exports = userRouter;
-
-
-
-
 
 
 

@@ -1,7 +1,6 @@
 const db = require('../utils/databaseutil');
 const { storeMedicines, checkMedicin, insertStoreMedicin, refillMedicin, addNewPurchase } = require('../model/medicineModel');
 
-
 exports.purchaseAssets = async (req, res, next) => {
     let {
         name,
@@ -42,7 +41,7 @@ exports.purchaseAssets = async (req, res, next) => {
     });
 }
 
-exports.allMedicines = async (req, res, next) => {
+exports.allMedicines = async (req, res) => {
     const medicines = await storeMedicines();
     res.json(medicines[0]);
 }
