@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt')
 const { isAvailable, addUser } = require('../model/authModel')
-const { generateToken } = require('../utils/jwtutils');
+const { generateToken } = require('../utils/jwtUtils');
 
 async function exist(mail){
     return await isAvailable(mail);
