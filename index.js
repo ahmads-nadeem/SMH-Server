@@ -9,18 +9,18 @@ const { verifyToken } = require('./middleware/authMiddleware');
 const app = express();
 app.use(cookieParser());
 app.use(express.json())
-app.use(cors(
-    {
-        origin: 'http://localhost:5173',
-        credentials: true
-    }
-));
-// app.use(cors({
-//     origin: 'https://smh-hospital.vercel.app',
-//     credentials: true,
-//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-//     allowedHeaders: ['Content-Type', 'Authorization']
-// })); 
+// app.use(cors(
+//     {
+//         origin: 'http://localhost:5173',
+//         credentials: true
+//     }
+// ));
+app.use(cors({
+    origin: 'https://smh-hospital.vercel.app',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+})); 
 // app.use('verify', verifyToken)
 app.use('/islogin', authRouter)
 app.use('/auth', authRouter)    
