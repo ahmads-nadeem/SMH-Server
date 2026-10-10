@@ -1,13 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const userRouter = require('./Routes/userRoutes');
 const authRouter = require('./Routes/authRoutes');
 const doctorRouter = require('./Routes/doctorRoutes');
-const db = require('./utils/databaseutil');
-// const { verifyToken } = require('./middleware/authMiddleware');
-// const { authenticate, login, register } = require('./controller/AuthController');
+const { verifyToken } = require('./middleware/authMiddleware');
 const app = express();
 app.use(cookieParser());
 app.use(express.json())
@@ -23,8 +21,9 @@ app.use(cors(
 //     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
 //     allowedHeaders: ['Content-Type', 'Authorization']
 // })); 
-
-app.use('/auth', authRouter)
+// app.use('verify', verifyToken)
+app.use('/islogin', authRouter)
+app.use('/auth', authRouter)    
 app.use('/users', userRouter); //verifyToken,
 // Doctor Routes
 app.use('/doctors/:username', doctorRouter); //verifyToken,
