@@ -5,8 +5,8 @@ exports.generateToken = (payload) => {
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30m' });
     const cookieOptions = {
         httpOnly: true,
-        secure: false, // Set to true if using HTTPS
-        sameSite: 'lax', //'strict'
+        secure: true,
+        sameSite: 'none', 
         maxAge: 30 * 60 * 1000 // 30 second
     }
     const data = {
