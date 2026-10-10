@@ -12,8 +12,8 @@ exports.logout = (req, res) => {
     
     res.status(200).clearCookie('token', {
         httpOnly: true,
-        secure: false, // jaise aapne token generation me rakha hai
-        sameSite: 'lax'
+        secure: true, // jaise aapne token generation me rakha hai
+        sameSite: 'none'
     }).json({
         message: "Logout Successfully"
     });
