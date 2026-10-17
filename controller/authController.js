@@ -2,23 +2,15 @@ const bcrypt = require('bcrypt')
 const { isAvailable, addUser } = require('../model/authModel')
 const { generateToken } = require('../utils/jwtUtils');
 const jwt = require('jsonwebtoken');
-
-// async function exist(mail) {
-//     return await isAvailable(mail);
-// }
-
 exports.logout = (req, res) => {
-    console.log('api hitA');
-    
     res.status(200).clearCookie('token', {
         httpOnly: true,
-        secure: true, // jaise aapne token generation me rakha hai
-        sameSite: 'none'
+        secure: true,  //false
+        sameSite: none //lax in local
     }).json({
         message: "Logout Successfully"
     });
 }
-
 
 exports.preAuth = async (req, res) => {
     const token = req.cookies.token;
@@ -42,8 +34,6 @@ exports.preAuth = async (req, res) => {
     }
 }
 
-
-//  Here is the new user register logic of server
 exports.register = async (req, res) => {
     const { name, mail, password } = req.body.formData;
     const role = 'doctor'
@@ -76,11 +66,10 @@ exports.register = async (req, res) => {
         }
     });
 }
-//  Here is the new user login logic of server
+
 exports.login = async (req, res) => {
     const { username, password } = req.body;
     const isExist = await isAvailable(username);
-    // const isExist = exist(username);
     if (isExist.length == 0) {
         return res.status(404).json({
             "success": false,
@@ -89,7 +78,6 @@ exports.login = async (req, res) => {
     }
     const isMatch = await bcrypt.compare(password, isExist[0].password)
     if (!isMatch) {
-        console.log('wrong password');
         return res.status(401).json({
             "success": false,
             "message": "Invalid credentials."

@@ -11,12 +11,16 @@ exports.addnewpatient = async (req, res) => {
     });
 };
 
-exports.customerTableData = async (req, res, next) => {
+exports.customerTableData = async (req, res) => {
     let result = await customerData();
     res.status(200).json(result)
 };
 
-exports.todayPatients = async (req, res, next) => {
+exports.todayPatients = async (req, res) => {
     console.log('hello g');
     
 };
+
+exports.storePatient = async (req, res) => {
+    const {} = req.body;
+}

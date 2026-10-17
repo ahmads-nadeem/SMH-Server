@@ -16,9 +16,20 @@ const insertStoreMedicin = async (name, formula, category, pPrice, power, packQt
 
 const refillMedicin = async(pPrice, packQty, sPrice, productId) => {
     try{
-        let updatequery = 'UPDATE storemedicines SET boxprice = ?, nopiec = ?, sellprice = ? WHERE productId = ?';
+        const updatequery = 'UPDATE storemedicines SET boxprice = ?, nopiec = ?, sellprice = ? WHERE productId = ?';
         let [row] = await db.execute(updatequery, [pPrice, packQty, sPrice, productId]);
         return row
+    }
+    catch(error){
+        throw error
+    }
+}
+
+const searchMedicin = async(keyword)=>{
+    try{
+        const [results] = await db.execute(`SELECT * FROM storemedicines WHERE productName LIKE '${keyword}%'`)
+        return results
+
     }
     catch(error){
         throw error
@@ -36,4 +47,4 @@ const storeMedicines = async() => {
     return medicines;
 }
 
-module.exports = { storeMedicines, checkMedicin, insertStoreMedicin, refillMedicin, addNewPurchase };
+module.exports = { storeMedicines, checkMedicin, insertStoreMedicin, refillMedicin, addNewPurchase, searchMedicin };

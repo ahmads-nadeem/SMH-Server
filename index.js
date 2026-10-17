@@ -26,7 +26,7 @@ app.use('/islogin', authRouter)
 app.use('/auth', authRouter)    
 app.use('/users', userRouter); //verifyToken,
 // Doctor Routes
-app.use('/doctors/:username', doctorRouter); //verifyToken,
+app.use('/doctors', doctorRouter); //verifyToken,
 
 const PORT = process.env.SERVER_PORT || 1190;
 app.listen(PORT, () => {

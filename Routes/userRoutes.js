@@ -2,8 +2,8 @@ const express = require('express');
 const userRouter = express.Router();
 // local imports
 const { getMed, getPatients, getSalesPurchase  } = require('../controller/DataBaseController');
-const { purchaseAssets, allMedicines } = require('../controller/medicineController');
-const { addnewpatient, customerTableData, todayPatients } = require('../controller/patientController');
+const { purchaseAssets, allMedicines, searchMedicin } = require('../controller/medicineController');
+const { addnewpatient, customerTableData, todayPatients, storePatient } = require('../controller/patientController');
 const { doctorServices, patientsTables } = require('../controller/doctorController')
 
 userRouter.get('/today-patients', todayPatients);
@@ -13,6 +13,10 @@ userRouter.get('/customer-table-data', customerTableData);//Working
 userRouter.post('/new-patient', addnewpatient); //testing
 
 userRouter.get('/all-medicines', allMedicines);  // Working
+userRouter.get('/search-medicin', searchMedicin)
+// userRouter.post('/store-patient-bill', storePatient)
+userRouter.post('/add-store-patient', storePatient)
+
 
 userRouter.post('/purchase-assets', purchaseAssets);
 
