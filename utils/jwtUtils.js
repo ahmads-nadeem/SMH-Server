@@ -6,7 +6,7 @@ exports.generateToken = (payload) => {
     const cookieOptions = {
         httpOnly: true,
         secure: true, //true
-        sameSite: none, //'lax'
+        sameSite: 'none', //'lax'
         maxAge: 30 * 60 * 1000 // 30 second
     }
     const data = {
