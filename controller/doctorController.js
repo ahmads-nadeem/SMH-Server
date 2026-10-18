@@ -19,7 +19,7 @@ exports.insertPatient = async (req, res) => {
 
     const addPatientDetails = await insertPatient(name, phone, age, gender);
     const addPatientVisit = await addVisit(patientDetails, addPatientDetails.insertId, totalBill);  
-    await addPatientAdvice(patientPurchses.medicine, addPatientAdvice.insertId);
+    await addPatientAdvice(patientPurchses.medicine, addPatientVisit.insertId);
     
     res.status(201).json({
         message:'Patient Successfully Added',
