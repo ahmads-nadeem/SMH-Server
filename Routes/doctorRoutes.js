@@ -9,7 +9,7 @@ doctorRouter.post('/add-patient', insertPatient)
 
 doctorRouter.get('/services', doctorServices)
 
-doctorRouter.get('/report', printReport)
+doctorRouter.post('/report', printReport)
 
 
 module.exports = doctorRouter;
