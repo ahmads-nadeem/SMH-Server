@@ -1,4 +1,4 @@
-const { doctorServices, patientsTables, insertPatient, addVisit, addPatientAdvice, printReport } = require('../model/doctorModel');
+const { doctorServices, patientsTables, insertPatient, addVisit, addPatientAdvice } = require('../model/doctorModel');
 const html_to_pdf = require('html-pdf-node');
 
 exports.insertPatient = async (req, res) => {
@@ -20,10 +20,31 @@ exports.insertPatient = async (req, res) => {
 
     const addPatientDetails = await insertPatient(name, phone, age, gender);
     const addPatientVisit = await addVisit(patientDetails, addPatientDetails, totalBill);
-    await addPatientAdvice(patientPurchses.medicine, addPatientVisit);
+    await addPatientAdvice(patientPurchses.medicine, addPatientVisit.insertId);
+    const medicine = patientPurchses.medicine.map((value, index)=>{
+        return value.productName
+    })
 
     res.status(201).json({
         message: 'success',
+        report: {
+            date: addPatientVisit.visit_date,
+            opdToken: addPatientVisit.vid,
+            patientName: addPatientVisit.patient_name,
+            age: addPatientVisit.age,
+            gravidaPara: addPatientVisit.gpa,
+            lmp: addPatientVisit.lmp,
+            gestationalAge: addPatientVisit.gestationalage,
+            chiefComplaint: addPatientVisit.visit_purpose,
+            clinicalFindings: addPatientVisit.clinical_findings,
+            hb: addPatientVisit.hb,
+            bp: addPatientVisit.bp,
+            urine: addPatientVisit.urine,
+            suger: addPatientVisit.suger,
+            treatment: medicine.join(", "),
+            nextVisit: addPatientVisit.nextvisit,
+            remarks:addPatientVisit.remarks
+        }
     })
 }
 
@@ -36,17 +57,12 @@ exports.patientsTables = async (req, res) => {
     res.status(200).json({ ...fetchPatients });
 }
 
-
-
-
-
 exports.printReport = async (req, res) => {
-
-    // const vid = req.para
+    const {date, opdToken, patientName, age, gravidaPara, lmp, gestationalAge, chiefComplaint, clinicalFindings, hb, bp, urine, suger, treatment, nextVisit, remarks } = req.body
     try {
         // 1. Dynamic Data (Aap Database se fetch kar sakte hain)
         const headerInfo = {
-            facilityName: "DHQ Hospital / Maternity Clinic",
+            facilityName: "SALMA HOSPITAL",
             phcRegNo: "PHC-123456",
             address: "Main Road, City",
             phone: "0300-1234567",
@@ -57,24 +73,24 @@ exports.printReport = async (req, res) => {
 
         const patientRows = [
             {
-                sNo: 1,
-                date: '07/07/2026',
-                opdToken: '001',
-                patientName: 'Ayesha Bibi',
-                age: '26',
-                gravidaPara: 'G2 P1',
-                lmp: '15/04/2026',
-                gestationalAge: '12 wks',
-                chiefComplaint: 'Routine ANC Checkup',
-                clinicalFindings: 'Stable, No complaints',
-                hb: '11.2 g/dl',
-                bp: '110/70 mmHg',
-                urine: 'Nil / Nil',
-                others: '—',
-                treatment: 'Folic Acid Continue, Diet Advice',
-                nextVisit: '21/07/2026',
-                remarks: '—',
-                signature: 'AB'
+                No: 1,
+                date,
+                opdToken,
+                patientName,
+                age,
+                gravidaPara,
+                lmp,
+                gestationalAge,
+                chiefComplaint,
+                clinicalFindings,
+                hb,
+                bp,
+                urine,
+                others: suger,
+                treatment,
+                nextVisit,
+                remarks,
+                signature: ''
             }
             // Baqi rows yahan loop se add ho sakti hain
         ];
@@ -82,7 +98,7 @@ exports.printReport = async (req, res) => {
         // Empty rows add karne ke liye taake page poora 15 rows ka bane
         while (patientRows.length < 15) {
             patientRows.push({
-                sNo: patientRows.length + 1,
+                No: patientRows.length + 1,
                 date: '', opdToken: '', patientName: '', age: '',
                 gravidaPara: '', lmp: '', gestationalAge: '', chiefComplaint: '',
                 clinicalFindings: '', hb: '', bp: '', urine: '', others: '',
@@ -168,8 +184,8 @@ exports.printReport = async (req, res) => {
           <tr>
             <th>Hb</th>
             <th>BP</th>
-            <th>Urine (Albumin/Sugar)</th>
-            <th>Others</th>
+            <th>Urine</th>
+            <th>Suger</th>
           </tr>
           <tr class="sub-header">
             <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>10</th><th>11</th><th>12</th><th>12</th><th>14</th><th>14</th><th>15</th><th>16</th><th>18</th><th>19</th>

@@ -18,7 +18,7 @@ const patientsTables = async () => {
 
 const insertPatient = async (name, phone, age, gender) => {
     const [isExist] = await db.execute('SELECT * FROM patients WHERE PhoneNumber = ?', [phone])
-    if(isExist.length > 0){
+    if (isExist.length > 0) {
         return isExist[0].cid
     }
     const query = "INSERT INTO patients (name, PhoneNumber, age, gender) VALUES (?, ?, ?, ?)";
@@ -56,7 +56,7 @@ const insertPatient = async (name, phone, age, gender) => {
 
 const addVisit = async (data, id, totalBill) => {
     const {
-        age, lmp, gpa, gestationalAge, hb, bp,
+        name, age, lmp, gpa, gestationalAge, hb, bp,
         suger, urine, clinicalFindings, remarks,
         purpose, visitDate, nextVisit, createdby
     } = data;
@@ -68,21 +68,21 @@ const addVisit = async (data, id, totalBill) => {
     const hb2 = hb ? parseFloat(hb) : null;
     const query = `
         INSERT INTO patients_visits (
-            cid, created_by, total_bill, visit_date, age, gpa, lmp, 
+            cid, patient_name, created_by, total_bill, visit_date, age, gpa, lmp, 
             gestationalage, visit_purpose, clinical_findings, hb, bp, 
             urine, suger, remarks, nextvisit
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const values = [
-        id, createdby, totalBill, visitDate2, age, gpa, lmp2,
+        id, name, createdby, totalBill, visitDate2, age, gpa, lmp2,
         gestationalAge, purpose, clinicalFindings, hb2, bp,
         urine, suger, remarks, nextVisit2
     ];
     console.log("Query Values:", values);
     const [result] = await db.execute(query, values);
     console.log(result);
-    
-    return result.insertId;
+
+    return result; //.insertId
 };
 
 const addPatientAdvice = async (usersArray, vid) => {
