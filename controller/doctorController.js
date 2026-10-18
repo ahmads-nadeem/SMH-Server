@@ -73,7 +73,7 @@ exports.printReport = async (req, res) => {
 
         const patientRows = [
             {
-                No: 1,
+                sNo: 1,
                 date,
                 opdToken,
                 patientName,
@@ -98,7 +98,7 @@ exports.printReport = async (req, res) => {
         // Empty rows add karne ke liye taake page poora 15 rows ka bane
         while (patientRows.length < 15) {
             patientRows.push({
-                No: patientRows.length + 1,
+                sNo: patientRows.length + 1,
                 date: '', opdToken: '', patientName: '', age: '',
                 gravidaPara: '', lmp: '', gestationalAge: '', chiefComplaint: '',
                 clinicalFindings: '', hb: '', bp: '', urine: '', others: '',
