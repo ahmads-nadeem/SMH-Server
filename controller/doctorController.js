@@ -1,4 +1,4 @@
-const { doctorServices, patientsTables, insertPatient, addVisit } = require('../model/doctorModel');
+const { doctorServices, patientsTables, insertPatient, addVisit, addPatientAdvice } = require('../model/doctorModel');
 
 exports.insertPatient = async (req, res) => {
     const {patientDetails, patientPurchses} = req.body;
@@ -19,6 +19,7 @@ exports.insertPatient = async (req, res) => {
 
     const addPatientDetails = await insertPatient(name, phone, age, gender);
     const addPatientVisit = await addVisit(patientDetails, addPatientDetails.insertId, totalBill);  
+    await addPatientAdvice(patientPurchses.medicine, addPatientAdvice.insertId);
     
     res.status(201).json({
         message:'Patient Successfully Added',

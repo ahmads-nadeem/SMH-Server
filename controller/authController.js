@@ -25,7 +25,7 @@ exports.preAuth = async (req, res) => {
             user: {
                 name: decoded.name,
                 mail: decoded.mail,
-                role: decoded.role // decoded token mein role hona chahiye
+                role: decoded.role
             }
         })
     }

@@ -85,4 +85,12 @@ const addVisit = async (data, id, totalBill) => {
     return result;
 };
 
-module.exports = { doctorServices, patientsTables, insertPatient, addVisit }
+const addPatientAdvice = async (usersArray, vid) => {
+    const values = usersArray.map(user => [vid, user.productName, user.formula, user.power, user.category]);
+    const query = "INSERT INTO doctoradvice (vid, medicin_name, medicin_formula, medicin_power, medicin_type) VALUES ?";
+    const [result] = await db.query(query, [values]);
+    return result
+}
+
+
+module.exports = { doctorServices, patientsTables, insertPatient, addVisit, addPatientAdvice }
