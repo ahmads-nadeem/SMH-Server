@@ -17,7 +17,7 @@ const patientsTables = async () => {
 }
 
 const insertPatient = async (name, phone, age, gender) => {
-    const [isExist] = await db.execute('SELECT * FROM patients WHERE phone = ?', [phone])
+    const [isExist] = await db.execute('SELECT * FROM patients WHERE PhoneNumber = ?', [phone])
     if(isExist.length > 0){
         return isExist[0].cid
     }
