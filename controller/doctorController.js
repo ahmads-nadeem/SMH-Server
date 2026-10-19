@@ -17,8 +17,6 @@ exports.insertPatient = async (req, res) => {
   if (patientPurchses.service.includes('checkup')) {
     totalBill = totalBill + spec('checkup')
   }
-
-
   const addPatientDetails = await insertPatient(name, phone, age, gender);
   const addPatientVisit = await addVisit(patientDetails, addPatientDetails, totalBill);
 
@@ -50,6 +48,7 @@ await addPatientAdvice(patientPurchses.medicine, addPatientVisit.insertId);
 const medicine = patientPurchses.medicine.map((value, index) => {
   return value.productName
 })
+console.log(addPatientVisit.patient_name);
 
 res.status(201).json({
   message: 'success',
