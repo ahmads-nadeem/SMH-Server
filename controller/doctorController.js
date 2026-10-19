@@ -24,7 +24,7 @@ exports.insertPatient = async (req, res) => {
     return res.status(201).json({
       message: 'success',
       report: {
-        date: addPatientVisit.visit_date,
+        patientVisit:addPatientVisit.visit_date,
         opdToken: addPatientVisit.vid,
         patientName: addPatientVisit.patient_name,
         age: addPatientVisit.age,
@@ -53,22 +53,22 @@ console.log(addPatientVisit.patient_name);
 res.status(201).json({
   message: 'success',
   report: {
-    date: addPatientVisit.visit_date,
-    opdToken: addPatientVisit.vid,
-    patientName: addPatientVisit.patient_name,
-    age: addPatientVisit.age,
-    gravidaPara: addPatientVisit.gpa,
-    lmp: addPatientVisit.lmp,
-    gestationalAge: addPatientVisit.gestationalage,
-    chiefComplaint: addPatientVisit.visit_purpose,
-    clinicalFindings: addPatientVisit.clinical_findings,
-    hb: addPatientVisit.hb,
-    bp: addPatientVisit.bp,
-    urine: addPatientVisit.urine,
-    suger: addPatientVisit.suger,
+    date: patientDetails.visitDate,
+    opdToken: addPatientVisit.insertId,
+    patientName: patientDetails.name,
+    age: patientDetails.age,
+    gravidaPara: patientDetails.gpa,
+    lmp: patientDetails.lmp,
+    gestationalAge: patientDetails.gestationalAge,
+    chiefComplaint: patientDetails.purpose,
+    clinicalFindings: patientDetails.clinicalFindings,
+    hb: patientDetails.hb,
+    bp: patientDetails.bp,
+    urine: patientDetails.urine,
+    suger: patientDetails.suger,
     treatment: medicine.join(", "),
-    nextVisit: addPatientVisit.nextvisit,
-    remarks: addPatientVisit.remarks
+    nextVisit: patientDetails.nextVisit,
+    remarks: patientDetails.remarks
   }
 })
 }

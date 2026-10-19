@@ -80,7 +80,8 @@ const addVisit = async (data, id, totalBill) => {
     ];
     console.log("Query Values:", values);
     const [result] = await db.execute(query, values);
-    console.log(result);
+    console.log('final result which visit returns: ',result);
+    
 
     return result; //.insertId
 };
