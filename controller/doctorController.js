@@ -45,7 +45,7 @@ exports.insertPatient = async (req, res) => {
       }
     })
   }
-}
+
 await addPatientAdvice(patientPurchses.medicine, addPatientVisit.insertId);
 const medicine = patientPurchses.medicine.map((value, index) => {
   return value.productName
@@ -72,6 +72,7 @@ res.status(201).json({
     remarks: addPatientVisit.remarks
   }
 })
+}
 
 
 exports.doctorServices = async (req, res) => {
