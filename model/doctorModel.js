@@ -26,41 +26,12 @@ const insertPatient = async (name, phone, age, gender) => {
     return result.insertId
 }
 
-// const addVisit = async (data, id, totalBill) => {
-
-//     const {age, lmp, gpa, gestationalAge, hb, bp, suger, urine, clinicalFindings, remarks, purpose, visitDate, nextVisit, createdby} = data;
-//     let visitDate2 = visitDate
-//     let lmp2 = lmp;
-//     let nextVisit2 = nextVisit
-//     if(visitDate == ''){
-//         visitDate2 = null
-//     }  
-//     if(lmp == ''){
-//         lmp2 = null
-//     }
-//     if(nextVisit == ''){
-//         nextVisit2 = null
-//     }
-//     let hb2 = parseFloat(hb)
-//     const query = `
-//             INSERT INTO patients_visits (
-//                 cid, created_by, total_bill, visit_date, age, gpa, lmp, 
-//                 gestationalage, visit_purpose, clinical_findings, hb, bp, 
-//                 urine, suger, remarks, nextvisit
-//             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-//         `;
-
-//     const [result] = await db.execute(query, [id, createdby, totalBill, visitDate2, age, gpa, lmp2, gestationalAge, purpose, clinicalFindings, hb2, bp, urine, suger, remarks, nextVisit2]);
-//     return result
-// }
-
 const addVisit = async (data, id, totalBill) => {
     const {
         name, age, lmp, gpa, gestationalAge, hb, bp,
         suger, urine, clinicalFindings, remarks,
         purpose, visitDate, nextVisit, createdby
     } = data;
-
     const formatDate = (date) => (date && date !== '' ? date : null);
     const visitDate2 = formatDate(visitDate);
     const lmp2 = formatDate(lmp);
@@ -79,8 +50,7 @@ const addVisit = async (data, id, totalBill) => {
         urine, suger, remarks, nextVisit2
     ];
     const [result] = await db.execute(query, values);
-   
-    return result; //.insertId
+    return result;
 };
 
 const addPatientAdvice = async (usersArray, vid) => {
@@ -89,6 +59,5 @@ const addPatientAdvice = async (usersArray, vid) => {
     const [result] = await db.query(query, [values]);
     return result
 }
-
 
 module.exports = { doctorServices, patientsTables, insertPatient, addVisit, addPatientAdvice }
