@@ -23,7 +23,7 @@ exports.insertPatient = async (req, res) => {
   const addPatientVisit = await addVisit(patientDetails, addPatientDetails, totalBill);
 
   if (patientPurchses.service.length == 0) {
-    res.status(201).json({
+    return res.status(201).json({
       message: 'success',
       report: {
         date: addPatientVisit.visit_date,
