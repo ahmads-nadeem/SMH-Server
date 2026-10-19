@@ -3,6 +3,8 @@ const html_to_pdf = require('html-pdf-node');
 
 exports.insertPatient = async (req, res) => {
   const { patientDetails, patientPurchses } = req.body;
+  console.log(patientDetails.visitDate);
+  
   const { name, phone, age, gender } = patientDetails;
   const ser = await doctorServices();
   let totalBill = 0;
@@ -48,7 +50,6 @@ await addPatientAdvice(patientPurchses.medicine, addPatientVisit.insertId);
 const medicine = patientPurchses.medicine.map((value, index) => {
   return value.productName
 })
-console.log(addPatientVisit.patient_name);
 
 res.status(201).json({
   message: 'success',

@@ -78,11 +78,8 @@ const addVisit = async (data, id, totalBill) => {
         gestationalAge, purpose, clinicalFindings, hb2, bp,
         urine, suger, remarks, nextVisit2
     ];
-    console.log("Query Values:", values);
     const [result] = await db.execute(query, values);
-    console.log('final result which visit returns: ',result);
-    
-
+   
     return result; //.insertId
 };
 
