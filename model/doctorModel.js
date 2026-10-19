@@ -71,7 +71,7 @@ const addVisit = async (data, id, totalBill) => {
             cid, patient_name, created_by, total_bill, visit_date, age, gpa, lmp, 
             gestationalage, visit_purpose, clinical_findings, hb, bp, 
             urine, suger, remarks, nextvisit
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const values = [
         id, name, createdby, totalBill, visitDate2, age, gpa, lmp2,
