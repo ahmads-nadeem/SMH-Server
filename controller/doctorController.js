@@ -2,112 +2,138 @@ const { doctorServices, patientsTables, insertPatient, addVisit, addPatientAdvic
 const html_to_pdf = require('html-pdf-node');
 
 exports.insertPatient = async (req, res) => {
-    const { patientDetails, patientPurchses } = req.body;
-    const { name, phone, age, gender } = patientDetails;
-    const ser = await doctorServices();
-    let totalBill = 0;
-    function spec(service) {
-        const specific = ser.filter(obj => obj.service == service)
-        return Number(specific[0].price)
-    }
+  const { patientDetails, patientPurchses } = req.body;
+  const { name, phone, age, gender } = patientDetails;
+  const ser = await doctorServices();
+  let totalBill = 0;
+  function spec(service) {
+    const specific = ser.filter(obj => obj.service == service)
+    return Number(specific[0].price)
+  }
 
-    if (patientPurchses.service.includes('ultrasound')) {
-        totalBill = totalBill + spec('ultrasound')
-    }
-    if (patientPurchses.service.includes('checkup')) {
-        totalBill = totalBill + spec('checkup')
-    }
+  if (patientPurchses.service.includes('ultrasound')) {
+    totalBill = totalBill + spec('ultrasound')
+  }
+  if (patientPurchses.service.includes('checkup')) {
+    totalBill = totalBill + spec('checkup')
+  }
 
-    const addPatientDetails = await insertPatient(name, phone, age, gender);
-    const addPatientVisit = await addVisit(patientDetails, addPatientDetails, totalBill);
-    await addPatientAdvice(patientPurchses.medicine, addPatientVisit.insertId);
-    const medicine = patientPurchses.medicine.map((value, index)=>{
-        return value.productName
-    })
 
+  const addPatientDetails = await insertPatient(name, phone, age, gender);
+  const addPatientVisit = await addVisit(patientDetails, addPatientDetails, totalBill);
+
+  if (patientPurchses.service.length == 0) {
     res.status(201).json({
-        message: 'success',
-        report: {
-            date: addPatientVisit.visit_date,
-            opdToken: addPatientVisit.vid,
-            patientName: addPatientVisit.patient_name,
-            age: addPatientVisit.age,
-            gravidaPara: addPatientVisit.gpa,
-            lmp: addPatientVisit.lmp,
-            gestationalAge: addPatientVisit.gestationalage,
-            chiefComplaint: addPatientVisit.visit_purpose,
-            clinicalFindings: addPatientVisit.clinical_findings,
-            hb: addPatientVisit.hb,
-            bp: addPatientVisit.bp,
-            urine: addPatientVisit.urine,
-            suger: addPatientVisit.suger,
-            treatment: medicine.join(", "),
-            nextVisit: addPatientVisit.nextvisit,
-            remarks:addPatientVisit.remarks
-        }
+      message: 'success',
+      report: {
+        date: addPatientVisit.visit_date,
+        opdToken: addPatientVisit.vid,
+        patientName: addPatientVisit.patient_name,
+        age: addPatientVisit.age,
+        gravidaPara: addPatientVisit.gpa,
+        lmp: addPatientVisit.lmp,
+        gestationalAge: addPatientVisit.gestationalage,
+        chiefComplaint: addPatientVisit.visit_purpose,
+        clinicalFindings: addPatientVisit.clinical_findings,
+        hb: addPatientVisit.hb,
+        bp: addPatientVisit.bp,
+        urine: addPatientVisit.urine,
+        suger: addPatientVisit.suger,
+        treatment: '',
+        nextVisit: addPatientVisit.nextvisit,
+        remarks: addPatientVisit.remarks
+      }
     })
+  }
 }
+await addPatientAdvice(patientPurchses.medicine, addPatientVisit.insertId);
+const medicine = patientPurchses.medicine.map((value, index) => {
+  return value.productName
+})
+
+res.status(201).json({
+  message: 'success',
+  report: {
+    date: addPatientVisit.visit_date,
+    opdToken: addPatientVisit.vid,
+    patientName: addPatientVisit.patient_name,
+    age: addPatientVisit.age,
+    gravidaPara: addPatientVisit.gpa,
+    lmp: addPatientVisit.lmp,
+    gestationalAge: addPatientVisit.gestationalage,
+    chiefComplaint: addPatientVisit.visit_purpose,
+    clinicalFindings: addPatientVisit.clinical_findings,
+    hb: addPatientVisit.hb,
+    bp: addPatientVisit.bp,
+    urine: addPatientVisit.urine,
+    suger: addPatientVisit.suger,
+    treatment: medicine.join(", "),
+    nextVisit: addPatientVisit.nextvisit,
+    remarks: addPatientVisit.remarks
+  }
+})
+
 
 exports.doctorServices = async (req, res) => {
-    const fetchedServices = await doctorServices();
-    res.status(200).json({ fetchedServices });
+  const fetchedServices = await doctorServices();
+  res.status(200).json({ fetchedServices });
 }
 exports.patientsTables = async (req, res) => {
-    const fetchPatients = await patientsTables();
-    res.status(200).json({ ...fetchPatients });
+  const fetchPatients = await patientsTables();
+  res.status(200).json({ ...fetchPatients });
 }
 
 exports.printReport = async (req, res) => {
-    const {date, opdToken, patientName, age, gravidaPara, lmp, gestationalAge, chiefComplaint, clinicalFindings, hb, bp, urine, suger, treatment, nextVisit, remarks } = req.body
-    try {
-        // 1. Dynamic Data (Aap Database se fetch kar sakte hain)
-        const headerInfo = {
-            facilityName: "SALMA HOSPITAL",
-            phcRegNo: "PHC-123456",
-            address: "Main Road, City",
-            phone: "0300-1234567",
-            registerNo: "REG-2026",
-            year: "2026",
-            pageNo: "01"
-        };
+  const { date, opdToken, patientName, age, gravidaPara, lmp, gestationalAge, chiefComplaint, clinicalFindings, hb, bp, urine, suger, treatment, nextVisit, remarks } = req.body
+  try {
+    // 1. Dynamic Data (Aap Database se fetch kar sakte hain)
+    const headerInfo = {
+      facilityName: "SALMA HOSPITAL",
+      phcRegNo: "PHC-123456",
+      address: "Main Road, City",
+      phone: "0300-1234567",
+      registerNo: "REG-2026",
+      year: "2026",
+      pageNo: "01"
+    };
 
-        const patientRows = [
-            {
-                sNo: 1,
-                date,
-                opdToken,
-                patientName,
-                age,
-                gravidaPara,
-                lmp,
-                gestationalAge,
-                chiefComplaint,
-                clinicalFindings,
-                hb,
-                bp,
-                urine,
-                others: suger,
-                treatment,
-                nextVisit,
-                remarks,
-                signature: ''
-            }
-            // Baqi rows yahan loop se add ho sakti hain
-        ];
+    const patientRows = [
+      {
+        sNo: 1,
+        date,
+        opdToken,
+        patientName,
+        age,
+        gravidaPara,
+        lmp,
+        gestationalAge,
+        chiefComplaint,
+        clinicalFindings,
+        hb,
+        bp,
+        urine,
+        others: suger,
+        treatment,
+        nextVisit,
+        remarks,
+        signature: ''
+      }
+      // Baqi rows yahan loop se add ho sakti hain
+    ];
 
-        // Empty rows add karne ke liye taake page poora 15 rows ka bane
-        while (patientRows.length < 15) {
-            patientRows.push({
-                sNo: patientRows.length + 1,
-                date: '', opdToken: '', patientName: '', age: '',
-                gravidaPara: '', lmp: '', gestationalAge: '', chiefComplaint: '',
-                clinicalFindings: '', hb: '', bp: '', urine: '', others: '',
-                treatment: '', nextVisit: '', remarks: '', signature: ''
-            });
-        }
+    // Empty rows add karne ke liye taake page poora 15 rows ka bane
+    while (patientRows.length < 15) {
+      patientRows.push({
+        sNo: patientRows.length + 1,
+        date: '', opdToken: '', patientName: '', age: '',
+        gravidaPara: '', lmp: '', gestationalAge: '', chiefComplaint: '',
+        clinicalFindings: '', hb: '', bp: '', urine: '', others: '',
+        treatment: '', nextVisit: '', remarks: '', signature: ''
+      });
+    }
 
-        // 2. HTML + CSS Template (Exact image layout)
-        const htmlContent = `
+    // 2. HTML + CSS Template (Exact image layout)
+    const htmlContent = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -229,19 +255,19 @@ exports.printReport = async (req, res) => {
     </html>
     `;
 
-        // 3. Options for PDF Generation
-        let options = { format: 'A4', landscape: true, printBackground: true };
-        let file = { content: htmlContent };
+    // 3. Options for PDF Generation
+    let options = { format: 'A4', landscape: true, printBackground: true };
+    let file = { content: htmlContent };
 
-        // 4. Generate PDF & Stream directly to Browser
-        html_to_pdf.generatePdf(file, options).then(pdfBuffer => {
-            res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Disposition', 'inline; filename="ANC_Register.pdf"');
-            res.send(pdfBuffer);
-        });
+    // 4. Generate PDF & Stream directly to Browser
+    html_to_pdf.generatePdf(file, options).then(pdfBuffer => {
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'inline; filename="ANC_Register.pdf"');
+      res.send(pdfBuffer);
+    });
 
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("PDF Error");
-    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("PDF Error");
+  }
 };
